@@ -20,7 +20,7 @@ export async function forwardToExternalService(
   // const number = data.payload?.data.number || '';
   const confirmationMessage = buildConfirmationMessage(data.payload as Payload);
 
-  const response = await axios.post(url, {message: confirmationMessage, number: number}, { headers, timeout: 10000 });
+  const response = await axios.post(url, {message: confirmationMessage, number: number , payload: data.payload}, { headers, timeout: 10000 });
   console.log('response');
   console.log(response.data);
   return {

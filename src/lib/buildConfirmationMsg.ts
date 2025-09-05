@@ -5,7 +5,7 @@ export type Payload = {
       message?: string;
       service?: string;
       endpoint?: string;
-      id_contacto?: string;
+      id_captacion?: string;
       strategy?: {
         maxAttempts?: number;
         attemptDelay?: number;
@@ -15,6 +15,21 @@ export type Payload = {
       };
     };
   };
+
+
+//   {
+//     receivedAt: '2025-09-05T17:38:04.517Z',
+//     payload: {
+//       data: {
+//         message: 'Se ha realizado una solicitud de servicio a nombre Simon Lopez, por favor confirma que fuiste tú.',
+//         service: 'suscripción',
+//         endpoint: 'https://api.dartmolins.winwinsaas.com/agents/customer_validation',
+//         name: 'Simon Lopez Salinas',
+//         number: 56971524620,
+//         id_captacion: 404
+//       }
+//     }
+//   }
   
   type BuildOpts = {
     date?: Date;              // si querés inyectar una fecha específica
@@ -49,18 +64,20 @@ export type Payload = {
   
     const hora = fmt.format(date);
 
-    const whatsappMessage = {
-       text: `${baseMsg}
-        Hora de la solicitud: ${hora}
-        Servicio solicitado: ${service}
-        Nombre del solicitante: ${name}`
+    // const whatsappMessage = {
+    //    text: `${baseMsg}
+    //     Hora de la solicitud: ${hora}
+    //     Servicio solicitado: ${service}
+    //     Nombre del solicitante: ${name}`
         
-      ,
-        templateButtons: [
-          { index: 1, quickReplyButton: { displayText: "✅ Acepto", id: "ACCEPT" } },
-          { index: 2, quickReplyButton: { displayText: "❌ Rechazo", id: "REJECT" } },
-        ],
-      };
+    //   ,
+    //     templateButtons: [
+    //       { index: 1, quickReplyButton: { displayText: "✅ Acepto", id: "ACCEPT" } },
+    //       { index: 2, quickReplyButton: { displayText: "❌ Rechazo", id: "REJECT" } },
+    //     ],
+    //   };
+
+    
   
     return (
   `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.

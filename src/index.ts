@@ -52,7 +52,7 @@ app.post('/process', requireAuth, async (req: Request, res: Response, next: Next
     }
 
     const processed = {
-      receivedAt: new Date().toISOString(),
+      receivedAt: payload.data.timestamp || new Date().toISOString(),
       payload,
     };
 
