@@ -6,6 +6,7 @@ export type Payload = {
       service?: string;
       endpoint?: string;
       id_captacion?: string;
+      timestamp?: string;
       strategy?: {
         maxAttempts?: number;
         attemptDelay?: number;
@@ -40,15 +41,28 @@ export type Payload = {
     payload: Payload,
     opts: BuildOpts = {} 
   ): string {
-    const tz = opts.tz ?? "America/Argentina/Buenos_Aires";
-    const date = opts.date ?? new Date();
+    // const tz = opts.tz ?? "America/Argentina/Buenos_Aires";
+    // const date = opts.date ?? new Date();
+
+    const timestamp = payload?.data?.timestamp ?? new Date().toISOString();
+
+    
+const date = new Date(timestamp);
+
+const formatted = date.toLocaleString("es-AR", {
+  day: "numeric",
+  month: "numeric",
+  year: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+});
   
-    const fmt = new Intl.DateTimeFormat("es-AR", {
-      dateStyle: "short",
-      timeStyle: "short",
-      hour12: false,
-      timeZone: tz,
-    });
+    // const fmt = new Intl.DateTimeFormat("es-AR", {
+    //   dateStyle: "short",
+    //   timeStyle: "short",
+    //   hour12: false,
+    //   timeZone: tz,
+    // });
   
     const name = payload?.data?.name ?? "—";
     const service = payload?.data?.service ?? "—";
@@ -57,12 +71,14 @@ export type Payload = {
     console.log(name);
     console.log('service');
     console.log(service);
+    console.log('formatted');
+    console.log(formatted);
 
-    const baseMsg =
-      payload?.data?.message ??
-      `Se ha realizado una solicitud de servicio a nombre ${name}, por favor confirma que fuiste tú.`;
+    // const baseMsg =
+    //   payload?.data?.message ??
+    //   `Se ha realizado una solicitud de servicio a nombre ${name}, por favor confirma que fuiste tú.`;
   
-    const hora = fmt.format(date);
+    // const hora = fmt.format(date);
 
     // const whatsappMessage = {
     //    text: `${baseMsg}
@@ -82,7 +98,7 @@ export type Payload = {
     return (
   `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.
 
-  Hora de la solicitud: *${hora}*
+  Hora de la solicitud: *${formatted}*
   Servicio solicitado: *${service}*
   Nombre del solicitante: *${name}*
   
