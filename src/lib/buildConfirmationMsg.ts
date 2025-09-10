@@ -3,6 +3,7 @@ export type Payload = {
       name?: string;
       number?: string;
       message?: string;
+      action?: 'confirm' | 'add_documents' | string
       service?: string;
       endpoint?: string;
       id_captacion?: string;
@@ -66,6 +67,9 @@ const formatted = date.toLocaleString("es-AR", {
   
     const name = payload?.data?.name ?? "—";
     const service = payload?.data?.service ?? "—";
+    const message = payload?.data?.message ?? "—";
+    
+    const action = payload?.data?.action ?? "—";
 
     console.log('name');
     console.log(name);
@@ -93,20 +97,24 @@ const formatted = date.toLocaleString("es-AR", {
     //     ],
     //   };
 
+    const confirmMessage =  `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.
+
+    Hora de la solicitud: *${formatted}*
+    Servicio solicitado: *${service}*
+    Nombre del solicitante: *${name}*
+    
+    Responde con la opción que corresponda:
+  
+    1. ✅ Acepto 
+    2. ❌ Rechazo 
+    `.trim();
+
+    const addDocumentsMessage =  message;
+
+    const whatsappMessage = action === 'confirm'  ? confirmMessage : action === 'add_documents' ? addDocumentsMessage : message;
+
     
   
-    return (
-  `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.
-
-  Hora de la solicitud: *${formatted}*
-  Servicio solicitado: *${service}*
-  Nombre del solicitante: *${name}*
-  
-  Responde con la opción que corresponda:
-
-  1. ✅ Acepto
-  2. ❌ Rechazo
-  `
-    ).trim();
+    return whatsappMessage;
   }
   
