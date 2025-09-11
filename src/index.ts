@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { loadEnv } from './modules/config/env';
 import { forwardToExternalService } from './modules/services/forwarder';
-import {Payload} from './lib/buildConfirmationMsg';
-
+import {Payload} from './types/body';
 dotenv.config();
 const env = loadEnv();
 
@@ -69,6 +68,9 @@ app.post('/process', requireAuth, async (req: Request, res: Response, next: Next
     next(err);
   }
 });
+
+
+
 
 // Error handler
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {

@@ -79,8 +79,28 @@ export type CaptacionRecord = {
   task?: "request_documentation" | "validate_customer" | string;
 };
 
-export const responses = {
-  request_documentation: "Se ha realizado una solicitud de documentación, por favor confirma que fuiste tú.",
-  validate_customer: "Se ha realizado una solicitud de validación de cliente, por favor confirma que fuiste tú.",
-  default: "Se ha realizado una solicitud de servicio, por favor confirma que fuiste tú.",
-}
+
+
+export type Payload = {
+    data?: {
+      name?: string;
+      number?: string;
+      message?: string;
+      task?: 'validate_customer' | 'request_documentation' | string;
+      completed?: boolean;
+      id_document?:string,
+      service?: string;
+      endpoint?: string;
+      id_captacion?: string;
+      documents?: [{id:string, types:string[], document:string, message:string}]
+      last_message?: string;
+      timestamp?: string;
+      strategy?: {
+        maxAttempts?: number;
+        attemptDelay?: number;
+        attemptTimeout?: number;
+        attemptMaxDelay?: number;
+        attemptMinDelay?: number;
+      };
+    };
+  };

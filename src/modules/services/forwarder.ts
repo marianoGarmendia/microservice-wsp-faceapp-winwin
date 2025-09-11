@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { buildConfirmationMessage, Payload } from '../../lib/buildConfirmationMsg';
+import {  Payload } from '../../types/body';
 
 interface Data {
   payload: Payload;
@@ -17,10 +17,12 @@ export async function forwardToExternalService(
     headers['Authorization'] = `Bearer ${apiKey}`;
   }
   const number = data.payload.data?.number || '';
+
+
+  const buildMessage = data?.payload.data?.message as string
  
 
 
-  const buildMessage = buildConfirmationMessage(data.payload as Payload);
 
   const response = await axios.post(url, {message: buildMessage, number: number , payload: data.payload }, { headers, timeout: 10000 });
   console.log('response forwardToExternalService');
