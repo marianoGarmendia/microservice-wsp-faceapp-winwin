@@ -18,20 +18,6 @@ export type Payload = {
     };
   };
 
-
-//   {
-//     receivedAt: '2025-09-05T17:38:04.517Z',
-//     payload: {
-//       data: {
-//         message: 'Se ha realizado una solicitud de servicio a nombre Simon Lopez, por favor confirma que fuiste tú.',
-//         service: 'suscripción',
-//         endpoint: 'https://api.dartmolins.winwinsaas.com/agents/customer_validation',
-//         name: 'Simon Lopez Salinas',
-//         number: 56971524620,
-//         id_captacion: 404
-//       }
-//     }
-//   }
   
   type BuildOpts = {
     date?: Date;              // si querés inyectar una fecha específica
@@ -42,8 +28,7 @@ export type Payload = {
     payload: Payload,
     opts: BuildOpts = {} 
   ): string {
-    // const tz = opts.tz ?? "America/Argentina/Buenos_Aires";
-    // const date = opts.date ?? new Date();
+  
 
     const timestamp = payload?.data?.timestamp ?? new Date().toISOString();
 
@@ -58,12 +43,6 @@ const formatted = date.toLocaleString("es-AR", {
   minute: "2-digit",
 });
   
-    // const fmt = new Intl.DateTimeFormat("es-AR", {
-    //   dateStyle: "short",
-    //   timeStyle: "short",
-    //   hour12: false,
-    //   timeZone: tz,
-    // });
   
     const name = payload?.data?.name ?? "—";
     const service = payload?.data?.service ?? "—";
@@ -77,25 +56,6 @@ const formatted = date.toLocaleString("es-AR", {
     console.log(service);
     console.log('formatted');
     console.log(formatted);
-
-    // const baseMsg =
-    //   payload?.data?.message ??
-    //   `Se ha realizado una solicitud de servicio a nombre ${name}, por favor confirma que fuiste tú.`;
-  
-    // const hora = fmt.format(date);
-
-    // const whatsappMessage = {
-    //    text: `${baseMsg}
-    //     Hora de la solicitud: ${hora}
-    //     Servicio solicitado: ${service}
-    //     Nombre del solicitante: ${name}`
-        
-    //   ,
-    //     templateButtons: [
-    //       { index: 1, quickReplyButton: { displayText: "✅ Acepto", id: "ACCEPT" } },
-    //       { index: 2, quickReplyButton: { displayText: "❌ Rechazo", id: "REJECT" } },
-    //     ],
-    //   };
 
     const confirmMessage =  `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.
 
@@ -113,8 +73,6 @@ const formatted = date.toLocaleString("es-AR", {
 
     const whatsappMessage = action === 'confirm'  ? confirmMessage : action === 'add_documents' ? addDocumentsMessage : message;
 
-    
-  
-    return whatsappMessage;
+    return message;
   }
   
