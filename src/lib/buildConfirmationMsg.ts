@@ -9,6 +9,7 @@ export type Payload = {
       action?: 'confirm' | 'add_documents' | string
       task?: 'validate_customer' | 'request_documentation' | string;
       completed?: boolean;
+      id_document?:string,
       service?: string;
       endpoint?: string;
       id_captacion?: string;

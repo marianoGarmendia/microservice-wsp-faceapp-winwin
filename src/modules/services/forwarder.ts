@@ -17,7 +17,7 @@ export async function forwardToExternalService(
     headers['Authorization'] = `Bearer ${apiKey}`;
   }
   const number = data.payload.data?.number || '';
-  const message = data.payload.data?.message || '';
+ 
 
 
   const buildMessage = buildConfirmationMessage(data.payload as Payload);
