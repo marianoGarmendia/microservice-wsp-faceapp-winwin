@@ -8,6 +8,7 @@ export type Payload = {
       message?: string;
       action?: 'confirm' | 'add_documents' | string
       task?: 'validate_customer' | 'request_documentation' | string;
+      completed?: boolean;
       service?: string;
       endpoint?: string;
       id_captacion?: string;
@@ -51,7 +52,7 @@ export type Payload = {
       task: payload?.data?.task ?? "",
     }
 
-    setCaptacion(number, data as Omit<CaptacionRecord, "createdAt"|"expiresAt">)
+    // setCaptacion(number, data as Omit<CaptacionRecord, "createdAt"|"expiresAt">)
 
     const timestamp = payload?.data?.timestamp ?? new Date().toISOString();
 
