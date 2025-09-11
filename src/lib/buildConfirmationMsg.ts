@@ -1,12 +1,18 @@
+import { setCaptacion } from "./kv-memory-ttl";
+import { CaptacionRecord } from "../types/body";
+
 export type Payload = {
     data?: {
       name?: string;
       number?: string;
       message?: string;
       action?: 'confirm' | 'add_documents' | string
+      task?: 'validate_customer' | 'request_documentation' | string;
       service?: string;
       endpoint?: string;
       id_captacion?: string;
+      documents?: [{id:string, types:string[], document:string, message:string}]
+      last_message?: string;
       timestamp?: string;
       strategy?: {
         maxAttempts?: number;
@@ -23,12 +29,29 @@ export type Payload = {
     date?: Date;              // si querés inyectar una fecha específica
     tz?: string;              // timezone; default: America/Argentina/Buenos_Aires
   };
+
+
+
   
   export function buildConfirmationMessage(
     payload: Payload,
-    opts: BuildOpts = {} 
+    opts: BuildOpts = {} ,
+    document?: {id:string, types:string[], document?:string, message:string}
   ): string {
   
+    // TODO: chequear si tiene documents y enviar por cada document un mensaje y guardar el estado
+    const number = payload?.data?.number ?? "";
+
+    const data = {
+      documents: payload?.data?.documents ?? [],
+      message: payload?.data?.message ?? "",
+      last_message: payload?.data?.message ?? "",
+      id_captacion: payload?.data?.id_captacion ?? "",
+      endpointConfirm: payload?.data?.endpoint ?? "",
+      task: payload?.data?.task ?? "",
+    }
+
+    setCaptacion(number, data as Omit<CaptacionRecord, "createdAt"|"expiresAt">)
 
     const timestamp = payload?.data?.timestamp ?? new Date().toISOString();
 
@@ -56,6 +79,8 @@ const formatted = date.toLocaleString("es-AR", {
     console.log(service);
     console.log('formatted');
     console.log(formatted);
+
+   
 
     const confirmMessage =  `Se ha realizado una solicitud de servicio a nombre *${name}*, por favor confirma que fuiste tú.
 

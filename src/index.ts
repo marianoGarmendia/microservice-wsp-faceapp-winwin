@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { loadEnv } from './modules/config/env';
 import { forwardToExternalService } from './modules/services/forwarder';
+import {Payload} from './lib/buildConfirmationMsg';
 
 dotenv.config();
 const env = loadEnv();
@@ -53,8 +54,10 @@ app.post('/process', requireAuth, async (req: Request, res: Response, next: Next
 
     const processed = {
       receivedAt: payload.data.timestamp || new Date().toISOString(),
-      payload,
+      payload: payload as Payload,
     };
+
+    // acá debería hacer la evaluación de la persona y su status
 
     console.dir(processed, { depth: null });
 
